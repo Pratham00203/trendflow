@@ -16,6 +16,11 @@ const UserSchema = mongoose.Schema({
   profile_pic: {
     type: String,
   },
+  default_pic: {
+    type: String,
+    default:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0mpEAFXv-iIa50q5rA2L6nnHGy_akXDFyQQ&usqp=CAU",
+  },
   bio: {
     type: String,
   },

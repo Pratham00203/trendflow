@@ -5,6 +5,7 @@ const fileUpload = require("express-fileupload");
 const connectDB = require("./db/db");
 const PORT = process.env.PORT || 5000;
 
+app.use("/public", express.static("public"));
 app.use(cors());
 app.use(
   fileUpload({
