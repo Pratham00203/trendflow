@@ -6,22 +6,82 @@ const Comment = require("../models/Comment");
 const Post = require("../models/Post");
 const path = require("path");
 const fs = require("fs");
+const mongoose = require("mongoose");
 
 // @route    GET api/user/search/
 // @desc     Search user
 // @access   Private
 router.get("/search", auth, async (req, res) => {
   try {
-    const skip = req.query.skip;
-
     // Create Query received from request into regular expression
     const query = new RegExp(req.query.q, "gi");
 
     // Search regular expression in user tables
-    const users = await User.find({ username: query }).skip(skip).limit(5);
+    const users = await User.find(
+      { username: query },
+      { username: 1, profile_pic: 1, default_pic: 1, bio: 1 }
+    );
 
     // return users matching regular expression query
     return res.status(200).json({ users });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+// @route    GET api/user/me/profile/
+// @desc     Get a current user's profile
+// @access   Private
+router.get("/me/profile/", auth, async (req, res) => {
+  try {
+    // Find user by userid and return
+    const followingCount = await Follow.countDocuments({
+      follower_id: req.user.id,
+    });
+    const followersCount = await Follow.countDocuments({
+      following_id: req.user.id,
+    });
+
+    const userId = new mongoose.Types.ObjectId(req.user.id);
+    const following = await Follow.aggregate([
+      {
+        $match: { follower_id: userId },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "following_id",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      {
+        $project: {
+          "userInfo.password": 0,
+          "userInfo.email": 0,
+          "userInfo.bio": 0,
+          "userInfo.interests": 0,
+          "userInfo.createdAt": 0,
+        },
+      },
+    ]).limit(5);
+    const user = await User.findById(req.user.id, {
+      password: 0,
+      email: 0,
+      createdAt: 0,
+      interests: 0,
+    });
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+    return res.status(200).json({
+      user,
+      followersCount,
+      followingCount,
+      following,
+      hasMoreFollowing: followingCount > 5 ? true : false,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Server error" });
@@ -34,6 +94,46 @@ router.get("/search", auth, async (req, res) => {
 router.get("/profile/:userid", auth, async (req, res) => {
   try {
     // Find user by userid and return
+    const followingCount = await Follow.countDocuments({
+      follower_id: req.params.userid,
+    });
+    const followersCount = await Follow.countDocuments({
+      following_id: req.params.userid,
+    });
+
+    const userId = new mongoose.Types.ObjectId(req.params.userid);
+
+    const following = await Follow.aggregate([
+      {
+        $match: { follower_id: userId },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "following_id",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      {
+        $project: {
+          "userInfo.password": 0,
+          "userInfo.email": 0,
+          "userInfo.bio": 0,
+          "userInfo.interests": 0,
+          "userInfo.createdAt": 0,
+        },
+      },
+    ]).limit(5);
+
+    const isFollowingCheck = await Follow.findOne({
+      follower_id: req.user.id,
+      following_id: req.params.userid,
+    });
+
+    let isFollowing = null;
+    isFollowingCheck ? (isFollowing = true) : (isFollowing = false);
+
     const user = await User.findById(req.params.userid, {
       password: 0,
       email: 0,
@@ -43,7 +143,14 @@ router.get("/profile/:userid", auth, async (req, res) => {
     if (!user) {
       return res.status(400).json({ error: "User not found" });
     }
-    return res.status(200).json({ user });
+    return res.status(200).json({
+      user,
+      followersCount,
+      followingCount,
+      isFollowing,
+      following,
+      hasMoreFollowing: followersCount > 5 ? true : false,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Server error" });
@@ -89,7 +196,7 @@ router.put("/update/me", auth, async (req, res) => {
     }
 
     await user.save();
-    return res.status(200).json({ msg: "User details updated" });
+    return res.status(200).json({ msg: "User details updated", user });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Server error" });
@@ -108,7 +215,7 @@ router.delete("/delete/profile-pic/me", auth, async (req, res) => {
         if (err) throw err;
       });
     }
-    user.profile_pic = "";
+    user.profile_pic = null;
     await user.save();
     return res.status(200).json({ msg: "User profile pic removed" });
   } catch (error) {
@@ -125,7 +232,7 @@ router.delete("/delete/me", auth, async (req, res) => {
     // Delete comments, follows, posts made by user
     await Comment.deleteMany({ user_id: req.user.id });
     await Follow.deleteMany({
-      $or: [{ followingId: req.user.id }, { followerId: req.user.id }],
+      $or: [{ following_id: req.user.id }, { follower_id: req.user.id }],
     });
     await Post.deleteMany({ user_id: req.user.id });
 

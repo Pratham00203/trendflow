@@ -54,15 +54,10 @@ router.post("/login", async (req, res) => {
       },
     };
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: "5 days" },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
+    jwt.sign(payload, process.env.JWT_SECRET, (err, token) => {
+      if (err) throw err;
+      res.json({ token });
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Server error" });
@@ -99,7 +94,7 @@ router.post("/register", async (req, res) => {
     await user.save();
 
     // If profile pic is uploaded by user then fetch it, store in public/uploads folder and save file url in user record in database
-    if (req.files !== null) {
+    if (req.files) {
       const { profile_pic } = req.files;
       if (!/^image/.test(profile_pic.mimetype)) {
         return res
@@ -124,15 +119,10 @@ router.post("/register", async (req, res) => {
       },
     };
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: "5 days" },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
+    jwt.sign(payload, process.env.JWT_SECRET, (err, token) => {
+      if (err) throw err;
+      res.json({ token });
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Server error" });

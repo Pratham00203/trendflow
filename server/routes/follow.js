@@ -86,6 +86,89 @@ router.get("/following/me", auth, async (req, res) => {
   }
 });
 
+// @route    GET api/follow/followers/f/:userid
+// @desc     Get a  user's followers
+// @access   Private
+router.get("/followers/f/:userid", auth, async (req, res) => {
+  try {
+    const skip = parseInt(req.query.skip);
+    const userId = new mongoose.Types.ObjectId(req.params.userid);
+
+    // Get my followers and their user details as a join
+    const followers = await Follow.aggregate([
+      {
+        $match: { following_id: userId },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "follower_id",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      {
+        $project: {
+          follower_id: 1,
+          following_id: 1,
+          "userInfo.username": 1,
+          "userInfo.profile_pic": 1,
+          "userInfo.default_pic": 1,
+        },
+      },
+    ])
+      .skip(skip)
+      .limit(10);
+
+    return res.status(200).json({ followers });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+// @route    GET api/follow/following/f/:userid
+// @desc     Get a  user's following
+// @access   Private
+router.get("/following/f/:userid", auth, async (req, res) => {
+  try {
+    const skip = parseInt(req.query.skip);
+    const userId = new mongoose.Types.ObjectId(req.params.userid);
+
+    // Get users that I follow (my following) and their user details as a join
+
+    const following = await Follow.aggregate([
+      {
+        $match: { follower_id: userId },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "following_id",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      {
+        $project: {
+          follower_id: 1,
+          following_id: 1,
+          "userInfo.username": 1,
+          "userInfo.profile_pic": 1,
+          "userInfo.default_pic": 1,
+        },
+      },
+    ])
+      .skip(skip)
+      .limit(10);
+
+    return res.status(200).json({ following });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
 // @route    PUT api/follow/user/:userid/follow/
 // @desc     Follow a User
 // @access   Private

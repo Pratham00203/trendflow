@@ -17,7 +17,7 @@ router.get("/feed/interests/", auth, async (req, res) => {
       {
         $match: {
           category: { $in: user.interests },
-          user_id: { $ne: req.user.id },
+          user_id: { $ne: currentUserId },
         },
       },
       {
@@ -90,7 +90,6 @@ router.get("/feed/following/", auth, async (req, res) => {
       },
       {
         $addFields: {
-          userInfo: { $arrayElemAt: ["$userInfo", 0] },
           score: { $subtract: ["$upvotes", "$downvotes"] },
         },
       },
@@ -125,10 +124,40 @@ router.get("/feed/following/", auth, async (req, res) => {
 // @access   Private
 router.get("/all/me", auth, async (req, res) => {
   try {
-    const skip = req.query.skip;
-    const posts = await Post.find({ user_id: req.user.id })
+    const skip = parseInt(req.query.skip);
+    const userId = new mongoose.Types.ObjectId(req.user.id);
+    const posts = await Post.aggregate([
+      {
+        $match: {
+          user_id: userId,
+        },
+      },
+      {
+        $lookup: {
+          from: "users", // The 'users' collection
+          localField: "user_id",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+      {
+        $project: {
+          "userInfo.password": 0,
+          "userInfo.email": 0,
+          "userInfo.bio": 0,
+          "userInfo.interests": 0,
+          "userInfo.createdAt": 0,
+        },
+      },
+    ])
       .skip(skip)
       .limit(10);
+
     return res.status(200).json({ posts });
   } catch (error) {
     console.log(error);
@@ -141,11 +170,57 @@ router.get("/all/me", auth, async (req, res) => {
 // @access   Private
 router.get("/get/:userid/posts", auth, async (req, res) => {
   try {
-    const skip = req.query.skip;
-    const posts = await Post.find({ user_id: req.params.userid })
+    const skip = parseInt(req.query.skip);
+    const userId = new mongoose.Types.ObjectId(req.params.userid);
+    const posts = await Post.aggregate([
+      {
+        $match: {
+          user_id: userId,
+        },
+      },
+      {
+        $lookup: {
+          from: "users", // The 'users' collection
+          localField: "user_id",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+      {
+        $project: {
+          "userInfo.password": 0,
+          "userInfo.email": 0,
+          "userInfo.bio": 0,
+          "userInfo.interests": 0,
+          "userInfo.createdAt": 0,
+        },
+      },
+    ])
       .skip(skip)
       .limit(10);
+
     return res.status(200).json({ posts });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+// @route    GET api/post/get/:postid/post
+// @desc     Get a post
+// @access   Private
+router.get("/get/:postid/post", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postid, {
+      content: 1,
+      category: 1,
+    });
+    return res.status(200).json({ post });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Server error" });

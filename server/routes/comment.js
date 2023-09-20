@@ -19,7 +19,36 @@ router.post("/:postid/create", auth, async (req, res) => {
     });
 
     await comment.save();
-    return res.status(200).json({ msg: "Comment created" });
+    const newCommentId = new mongoose.Types.ObjectId(comment._id);
+    const newComment = await Comment.aggregate([
+      {
+        $match: { _id: newCommentId },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user_id",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      {
+        $project: {
+          user_id: 1,
+          parentComment_id: 1,
+          text: 1,
+          createdAt: 1,
+          post_id: 1,
+          "userInfo.username": 1,
+          "userInfo.profile_pic": 1,
+          "userInfo.default_pic": 1,
+        },
+      },
+    ]);
+
+    return res
+      .status(200)
+      .json({ msg: "Comment created", newComment: newComment[0] });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Server error" });
@@ -84,7 +113,7 @@ router.get("/:postid/all", auth, async (req, res) => {
       },
     ])
       .skip(skip)
-      .limit(10);
+      .limit(5);
     return res.status(200).json({ comments });
   } catch (error) {
     console.log(error);
