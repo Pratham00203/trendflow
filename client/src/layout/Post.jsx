@@ -1,16 +1,19 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import CommentImg from "../assets/images/chat.png";
 import EditImg from "../assets/images/write-blog.png";
 import UpvoteImg from "../assets/images/upvote.png";
 import DownvoteImg from "../assets/images/downvote.png";
 import DeleteImg from "../assets/images/delete.png";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import moment from "moment/moment";
 import UserContext from "../context/UserContext";
 import toast from "react-hot-toast";
+import FlagImg from '../assets/images/red-flag.png'
+import ReasonModal from "../util/ReasonModal";
+import { useState } from "react";
 
 export default function Post({
   post,
@@ -22,6 +25,7 @@ export default function Post({
   setKey,
 }) {
   const { user } = useContext(UserContext);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
@@ -104,6 +108,15 @@ export default function Post({
               </button>
             </>
           )}
+          {
+            post.user_id !== user._id && <div className="report-flag" >
+              <button onClick={() => setShowModal(true)} title="Report this post!"><img src={FlagImg} /></button>
+              {
+                showModal && <ReasonModal setShowModal={setShowModal} postid={post._id} />
+              }
+            </div>
+
+          }
         </div>
       </div>
     </>

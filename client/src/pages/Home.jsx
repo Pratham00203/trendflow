@@ -52,7 +52,7 @@ export default function Home() {
       });
 
       setFeedPosts(res.data.posts);
-      setFeedPostSkip((prev) => prev + 10);
+      setFeedPostSkip((prev) => prev + 5);
       setLoadingFeedPosts(false);
     } catch (error) {
       console.log(error);
@@ -70,7 +70,7 @@ export default function Home() {
       });
 
       setFollowingPosts(res.data.posts);
-      setFollowingPostSkip((prev) => prev + 10);
+      setFollowingPostSkip((prev) => prev + 5);
       setLoadingFollowingPosts(false);
     } catch (error) {
       console.log(error);
@@ -79,6 +79,7 @@ export default function Home() {
 
   const fetchMoreFeedPosts = async () => {
     try {
+
       const res = await axios({
         method: "get",
         url: `http://localhost:5000/api/post/feed/interests?skip=${feedPostSkip}`,
@@ -89,7 +90,7 @@ export default function Home() {
 
       if (res.data.posts.length !== 0) {
         setFeedPosts((prev) => prev.concat(res.data.posts));
-        setFeedPostSkip((prev) => prev + 10);
+        setFeedPostSkip((prev) => prev + 5);
       } else {
         setHasMoreFeedPosts(false);
       }
@@ -110,7 +111,7 @@ export default function Home() {
 
       if (res.data.posts.length !== 0) {
         setFollowingPosts((prev) => prev.concat(res.data.posts));
-        setFollowingPostSkip((prev) => prev + 10);
+        setFollowingPostSkip((prev) => prev + 5);
       } else {
         setHasMoreFollowingPosts(false);
       }

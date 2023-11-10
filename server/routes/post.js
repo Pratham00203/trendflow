@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 const Post = require("../models/Post");
 const User = require("../models/User");
 const Comment = require("../models/Comment");
+const Report = require("../models/Report");
 
 // @route    GET api/post/feed/interests
 // @desc     Get posts according to user's interests
@@ -304,6 +305,43 @@ router.put("/downvote/:postid/", auth, async (req, res) => {
       return res.status(200).json({ msg: "Downvoted" });
     }
     return res.status(400).json({ error: "Can't downvote your own post" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+// @route    POST api/post/report/:postid
+// @desc     Report a Post
+// @access   Private
+router.post("/report/:postid", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postid, { user_id: 1 });
+
+    if (post.user_id.toString() === req.user.id) {
+      return res.status(400).json({ error: "You can't report your own post!" });
+    }
+
+    let report = await Report.findOne({
+      post_id: req.params.postid,
+      user_id: req.user.id,
+    });
+
+    if (report) {
+      return res.status(400).json({ error: "Post already reported!" });
+    }
+
+    const { reason } = req.body;
+
+    report = new Report({
+      post_id: req.params.postid,
+      user_id: req.user.id,
+      reason: reason,
+    });
+
+    await report.save();
+
+    return res.status(200).json({ msg: `Post reported!` });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Server error" });

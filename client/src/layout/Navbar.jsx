@@ -6,6 +6,7 @@ import Logo from "../assets/images/logo.png";
 import WriteImg from "../assets/images/write-blog.png";
 import DownArrowImg from "../assets/images/down-arrow.png";
 import SearchImg from "../assets/images/search.png";
+import NewsImg from "../assets/images/news.png";
 
 export default function Navbar() {
   const { user } = useContext(UserContext);
@@ -48,10 +49,15 @@ export default function Navbar() {
           <Link to='/search' className='search-btn align-center'>
             <img src={SearchImg} />
           </Link>
-          <Link to='/post/create' className='d-flex align-center'>
+          <Link to='/news' className='d-flex align-center'>
+            <img src={NewsImg} />
+            <span>News</span>
+          </Link>
+          <Link to='/post/create' className='write-option d-flex align-center'>
             <img src={WriteImg} />
             <span>Write</span>
           </Link>
+
           <div className='profile-menu' style={{ position: "relative" }}>
             <div
               className='navbar-pic d-flex align-center'
@@ -72,6 +78,9 @@ export default function Navbar() {
             <ul
               className='d-flex flex-col'
               style={{ display: showNavMenu ? "flex" : "none" }}>
+              <li>
+                <Link to='/post/create'>Write a Post</Link>
+              </li>
               <li>
                 <Link to='/my-profile'>Your profile</Link>
               </li>

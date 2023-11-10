@@ -85,7 +85,7 @@ export default function MyProfile() {
         },
       });
       setUserPosts(res.data.posts);
-      setPostSkip((prev) => prev + 10);
+      setPostSkip((prev) => prev + 5);
       setPostLoading(false);
     } catch (error) {
       console.log(error);
@@ -106,7 +106,7 @@ export default function MyProfile() {
       });
       if (res.data.posts.length !== 0) {
         setUserPosts((prev) => prev.concat(res.data.posts));
-        setPostSkip((prev) => prev + 10);
+        setPostSkip((prev) => prev + 5);
         setPostLoading(false);
       } else {
         setHasMorePosts(false);

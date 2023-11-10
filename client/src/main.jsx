@@ -15,6 +15,7 @@ import UserProfile from "./pages/UserProfile.jsx";
 import PostForm from "./pages/PostForm.jsx";
 import MyProfile from "./pages/MyProfile.jsx";
 import Search from "./pages/Search.jsx";
+import NewsFeed from "./pages/NewsFeed.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -48,7 +49,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               </Private>
             }
           />
-
+          <Route
+            path='news'
+            element={
+              <Private>
+                <NewsFeed />
+              </Private>
+            }
+          />
           <Route
             path='settings'
             element={
