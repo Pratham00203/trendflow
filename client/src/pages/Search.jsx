@@ -24,7 +24,7 @@ export default function Search() {
     try {
       const res = await axios({
         method: "get",
-        url: `http://localhost:5000/api/user/search?q=${searchParams.get("q")}`,
+        url: `https://trendflow-backend.onrender.com/api/user/search?q=${searchParams.get("q")}`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -79,7 +79,7 @@ export default function Search() {
                         style={{ objectFit: "cover" }}
                         src={
                           u.profile_pic
-                            ? `http://localhost:5000/${u.profile_pic}`
+                            ? `https://trendflow-backend.onrender.com/${u.profile_pic}`
                             : u.default_pic
                         }
                         alt=''

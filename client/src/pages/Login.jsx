@@ -38,7 +38,7 @@ export default function Login() {
     try {
       const res = await axios({
         method: "post",
-        url: `http://localhost:5000/api/auth/login`,
+        url: `https://trendflow-backend.onrender.com/api/auth/login`,
         data: {
           email: email.current.value,
           password: password.current.value,

@@ -38,7 +38,7 @@ export default function FollowSection({ hasMore, fetchMoreData, followData }) {
                         style={{ objectFit: "cover" }}
                         src={
                           f.userInfo[0].profile_pic
-                            ? `http://localhost:5000/${f.userInfo[0].profile_pic}`
+                            ? `https://trendflow-backend.onrender.com/${f.userInfo[0].profile_pic}`
                             : f.userInfo[0].default_pic
                         }
                       />

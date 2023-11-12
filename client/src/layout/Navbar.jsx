@@ -66,7 +66,7 @@ export default function Navbar() {
                 className='navbar-pic'
                 src={
                   user.profile_pic
-                    ? `http://localhost:5000/${user.profile_pic}`
+                    ? `https://trendflow-backend.onrender.com/${user.profile_pic}`
                     : user.default_pic
                 }
                 style={{ borderRadius: "50%", objectFit: "cover" }}

@@ -25,7 +25,7 @@ export default function PostForm({ option }) {
     try {
       const res = await axios({
         method: "get",
-        url: `http://localhost:5000/api/post/get/${postid}/post`,
+        url: `https://trendflow-backend.onrender.com/api/post/get/${postid}/post`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -56,7 +56,7 @@ export default function PostForm({ option }) {
     try {
       const res = await axios({
         method: "post",
-        url: `http://localhost:5000/api/post/create/me`,
+        url: `https://trendflow-backend.onrender.com/api/post/create/me`,
         data: {
           content: postContent,
           category: postCategory,
@@ -77,7 +77,7 @@ export default function PostForm({ option }) {
     try {
       const res = await axios({
         method: "put",
-        url: `http://localhost:5000/api/post/update/${postid}/me`,
+        url: `https://trendflow-backend.onrender.com/api/post/update/${postid}/me`,
         data: {
           content: postContent,
           category: postCategory,

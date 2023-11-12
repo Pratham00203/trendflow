@@ -29,7 +29,7 @@ export default function Settings() {
     try {
       let res = await axios({
         method: "get",
-        url: "http://localhost:5000/api/auth/",
+        url: "https://trendflow-backend.onrender.com/api/auth/",
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -115,7 +115,7 @@ export default function Settings() {
       formData.append("profile_pic", userDetails.profile_pic);
 
       const res = await axios.put(
-        `http://localhost:5000/api/user/update/me`,
+        `https://trendflow-backend.onrender.com/api/user/update/me`,
         formData,
         config
       );
@@ -143,7 +143,7 @@ export default function Settings() {
     try {
       const res = axios({
         method: "delete",
-        url: "http://localhost:5000/api/user//delete/profile-pic/me",
+        url: "https://trendflow-backend.onrender.com/api/user//delete/profile-pic/me",
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -169,7 +169,7 @@ export default function Settings() {
       ) {
         const res = await axios({
           method: "delete",
-          url: "http://localhost:5000/api/user/delete/me",
+          url: "https://trendflow-backend.onrender.com/api/user/delete/me",
           headers: {
             "x-auth-token": localStorage.getItem("token"),
           },
@@ -199,7 +199,7 @@ export default function Settings() {
                   <img
                     src={
                       userDetails.profile_pic
-                        ? `http://localhost:5000/${userDetails.profile_pic}`
+                        ? `https://trendflow-backend.onrender.com/${userDetails.profile_pic}`
                         : userDetails.default_pic
                     }
                     alt=''

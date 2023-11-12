@@ -26,8 +26,8 @@ export default function FollowModal({
     try {
       const url =
         userId === user._id
-          ? `http://localhost:5000/api/follow/followers/me?skip=${skip}`
-          : `http://localhost:5000/api/follow/followers/f/${userId}?skip=${skip}`;
+          ? `https://trendflow-backend.onrender.com/api/follow/followers/me?skip=${skip}`
+          : `https://trendflow-backend.onrender.com/api/follow/followers/f/${userId}?skip=${skip}`;
       const res = await axios({
         method: "get",
         url: url,
@@ -46,8 +46,8 @@ export default function FollowModal({
     try {
       const url =
         userId === user._id
-          ? `http://localhost:5000/api/follow/following/me?skip=${skip}`
-          : `http://localhost:5000/api/follow/following/f/${userId}?skip=${skip}`;
+          ? `https://trendflow-backend.onrender.com/api/follow/following/me?skip=${skip}`
+          : `https://trendflow-backend.onrender.com/api/follow/following/f/${userId}?skip=${skip}`;
       const res = await axios({
         method: "get",
         url: url,
@@ -66,8 +66,8 @@ export default function FollowModal({
     try {
       const url =
         userId === user._id
-          ? `http://localhost:5000/api/follow/followers/me?skip=${skip}`
-          : `http://localhost:5000/api/follow/followers/f/${userId}?skip=${skip}`;
+          ? `https://trendflow-backend.onrender.com/api/follow/followers/me?skip=${skip}`
+          : `https://trendflow-backend.onrender.com/api/follow/followers/f/${userId}?skip=${skip}`;
       const res = await axios({
         method: "get",
         url: url,
@@ -90,8 +90,8 @@ export default function FollowModal({
     try {
       const url =
         userId === user._id
-          ? `http://localhost:5000/api/follow/following/me?skip=${skip}`
-          : `http://localhost:5000/api/follow/following/f/${userId}?skip=${skip}`;
+          ? `https://trendflow-backend.onrender.com/api/follow/following/me?skip=${skip}`
+          : `https://trendflow-backend.onrender.com/api/follow/following/f/${userId}?skip=${skip}`;
       const res = await axios({
         method: "get",
         url: url,

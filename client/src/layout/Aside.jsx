@@ -57,7 +57,7 @@ export default function Aside({
               style={{ objectFit: "cover" }}
               src={
                 profile.profile_pic
-                  ? `http://localhost:5000/${profile.profile_pic}`
+                  ? `https://trendflow-backend.onrender.com/${profile.profile_pic}`
                   : profile.default_pic
               }
               className='profile-pic'
@@ -97,7 +97,7 @@ export default function Aside({
                             style={{ objectFit: "cover" }}
                             src={
                               f.userInfo[0].profile_pic
-                                ? `http://localhost:5000/${f.userInfo[0].profile_pic}`
+                                ? `https://trendflow-backend.onrender.com/${f.userInfo[0].profile_pic}`
                                 : f.userInfo[0].default_pic
                             }
                           />

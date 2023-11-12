@@ -18,7 +18,7 @@ export default function Comment({ comment, deleteComment }) {
               style={{ objectFit: "cover" }}
               src={
                 comment.userInfo[0].profile_pic
-                  ? `http://localhost:5000/${comment.userInfo[0].profile_pic}`
+                  ? `https://trendflow-backend.onrender.com/${comment.userInfo[0].profile_pic}`
                   : comment.userInfo[0].default_pic
               }
             />

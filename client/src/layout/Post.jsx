@@ -38,7 +38,7 @@ export default function Post({
               style={{ objectFit: "cover" }}
               src={
                 post.userInfo[0].profile_pic
-                  ? `http://localhost:5000/${post.userInfo[0].profile_pic}`
+                  ? `https://trendflow-backend.onrender.com/${post.userInfo[0].profile_pic}`
                   : post.userInfo[0].default_pic
               }
               alt='profile_pic'

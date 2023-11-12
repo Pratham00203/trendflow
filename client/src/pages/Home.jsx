@@ -45,7 +45,7 @@ export default function Home() {
     try {
       const res = await axios({
         method: "get",
-        url: `http://localhost:5000/api/post/feed/interests?skip=${feedPostSkip}`,
+        url: `https://trendflow-backend.onrender.com/api/post/feed/interests?skip=${feedPostSkip}`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -63,7 +63,7 @@ export default function Home() {
     try {
       const res = await axios({
         method: "get",
-        url: `http://localhost:5000/api/post/feed/following?skip=${followingPostSkip}`,
+        url: `https://trendflow-backend.onrender.com/api/post/feed/following?skip=${followingPostSkip}`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -82,7 +82,7 @@ export default function Home() {
 
       const res = await axios({
         method: "get",
-        url: `http://localhost:5000/api/post/feed/interests?skip=${feedPostSkip}`,
+        url: `https://trendflow-backend.onrender.com/api/post/feed/interests?skip=${feedPostSkip}`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -103,7 +103,7 @@ export default function Home() {
     try {
       const res = await axios({
         method: "get",
-        url: `http://localhost:5000/api/post/feed/following?skip=${followingPostSkip}`,
+        url: `https://trendflow-backend.onrender.com/api/post/feed/following?skip=${followingPostSkip}`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },

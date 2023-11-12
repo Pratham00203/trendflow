@@ -47,7 +47,7 @@ export default function Register() {
     try {
       const res = await axios({
         method: "post",
-        url: `http://localhost:5000/api/auth/register`,
+        url: `https://trendflow-backend.onrender.com/api/auth/register`,
         data: {
           username: username.current.value,
           email: email.current.value,

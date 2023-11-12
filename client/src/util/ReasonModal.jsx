@@ -22,7 +22,7 @@ export default function ReasonModal({ setShowModal, postid }) {
         try {
             const res = await axios({
                 method: "post",
-                url: `http://localhost:5000/api/post/report/${postid}`,
+                url: `https://trendflow-backend.onrender.com/api/post/report/${postid}`,
                 data: {
                     reason: reason.current.value
                 },

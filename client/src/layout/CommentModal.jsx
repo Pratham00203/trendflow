@@ -29,7 +29,7 @@ export default function CommentModal({ showModal, setShowModal, postId }) {
     try {
       const res = await axios({
         method: "get",
-        url: `http://localhost:5000/api/post/comment/${postId}/all?skip=${skip}`,
+        url: `https://trendflow-backend.onrender.com/api/post/comment/${postId}/all?skip=${skip}`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -46,7 +46,7 @@ export default function CommentModal({ showModal, setShowModal, postId }) {
     try {
       const res = await axios({
         method: "get",
-        url: `http://localhost:5000/api/post/comment/${postId}/all?skip=${skip}`,
+        url: `https://trendflow-backend.onrender.com/api/post/comment/${postId}/all?skip=${skip}`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -67,7 +67,7 @@ export default function CommentModal({ showModal, setShowModal, postId }) {
     try {
       const res = await axios({
         method: "post",
-        url: `http://localhost:5000/api/post/comment/${postId}/create`,
+        url: `https://trendflow-backend.onrender.com/api/post/comment/${postId}/create`,
         data: {
           text: text.current.value,
         },
@@ -88,7 +88,7 @@ export default function CommentModal({ showModal, setShowModal, postId }) {
     try {
       const res = await axios({
         method: "delete",
-        url: `http://localhost:5000/api/post/comment/${postId}/${commentid}/delete`,
+        url: `https://trendflow-backend.onrender.com/api/post/comment/${postId}/${commentid}/delete`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },

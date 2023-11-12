@@ -40,8 +40,8 @@ export default function UserProfile() {
   const getUser = async () => {
     try {
       const url = userid
-        ? `http://localhost:5000/api/user/profile/${userid}`
-        : `http://localhost:5000/api/user/me/profile`;
+        ? `https://trendflow-backend.onrender.com/api/user/profile/${userid}`
+        : `https://trendflow-backend.onrender.com/api/user/me/profile`;
       const res = await axios({
         method: "get",
         url: url,
@@ -74,8 +74,8 @@ export default function UserProfile() {
   const getUserPosts = async () => {
     try {
       const url = userid
-        ? `http://localhost:5000/api/post/get/${userid}/posts?skip=${postSkip}`
-        : `http://localhost:5000/api/post/all/me?skip=${postSkip}`;
+        ? `https://trendflow-backend.onrender.com/api/post/get/${userid}/posts?skip=${postSkip}`
+        : `https://trendflow-backend.onrender.com/api/post/all/me?skip=${postSkip}`;
       const res = await axios({
         method: "GET",
         url: url,
@@ -94,8 +94,8 @@ export default function UserProfile() {
   const fetchMorePosts = async () => {
     try {
       const url = userid
-        ? `http://localhost:5000/api/post/get/${userid}/posts?skip=${postSkip}`
-        : `http://localhost:5000/api/post/all/me?skip=${postSkip}`;
+        ? `https://trendflow-backend.onrender.com/api/post/get/${userid}/posts?skip=${postSkip}`
+        : `https://trendflow-backend.onrender.com/api/post/all/me?skip=${postSkip}`;
       const res = await axios({
         method: "GET",
         url: url,
@@ -119,7 +119,7 @@ export default function UserProfile() {
     try {
       const res = await axios({
         method: "put",
-        url: `http://localhost:5000/api/follow/user/${userid}/follow/`,
+        url: `https://trendflow-backend.onrender.com/api/follow/user/${userid}/follow/`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -140,7 +140,7 @@ export default function UserProfile() {
     try {
       const res = await axios({
         method: "put",
-        url: `http://localhost:5000/api/follow/user/${userid}/unfollow/`,
+        url: `https://trendflow-backend.onrender.com/api/follow/user/${userid}/unfollow/`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },

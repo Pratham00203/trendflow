@@ -20,7 +20,7 @@ export default function PostsSection({
     try {
       const res = await axios({
         method: "put",
-        url: `http://localhost:5000/api/post/upvote/${postid}`,
+        url: `https://trendflow-backend.onrender.com/api/post/upvote/${postid}`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -47,7 +47,7 @@ export default function PostsSection({
     try {
       const res = await axios({
         method: "put",
-        url: `http://localhost:5000/api/post/downvote/${postid}`,
+        url: `https://trendflow-backend.onrender.com/api/post/downvote/${postid}`,
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -74,7 +74,7 @@ export default function PostsSection({
       if (window.confirm("Are you sure you want to delete this post?")) {
         const res = await axios({
           method: "delete",
-          url: `http://localhost:5000/api/post/delete/${postid}/me`,
+          url: `https://trendflow-backend.onrender.com/api/post/delete/${postid}/me`,
           headers: {
             "x-auth-token": localStorage.getItem("token"),
           },
