@@ -5,8 +5,8 @@ const fileUpload = require("express-fileupload");
 const connectDB = require("./db/db");
 const PORT = process.env.PORT || 5000;
 
-app.use("/uploads", express.static("public/uploads"));
 app.use(cors());
+app.use("/uploads", express.static("public/uploads"));
 app.use(
   fileUpload({
     limits: {
