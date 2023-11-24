@@ -1107,3 +1107,9 @@ aside > div {
     padding: 10px;
   }
 }
+
+.responsive-image {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}

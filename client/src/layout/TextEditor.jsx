@@ -15,8 +15,24 @@ export default function TextEditor({ placeholder, value, setValue }) {
   }, [placeholder]);
 
   const handleBlur = (newContent) => {
-    setContent(newContent);
-    setValue(newContent);
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(newContent, 'text/html');
+
+    const images = doc.querySelectorAll('img');
+
+    if (images) {
+      images.forEach((img) => {
+        img.classList.add('responsive-image');
+      });
+
+      const updatedContent = doc.documentElement.innerHTML;
+      setContent(updatedContent);
+      setValue(updatedContent);
+    } else {
+      setContent(newContent);
+      setValue(newContent);
+    }
+
   };
 
   return (
